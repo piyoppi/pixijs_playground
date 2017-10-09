@@ -60,16 +60,26 @@ function setup() {
     //------------------------------------------------------------------------
     //マップチップ描画テスト
     var texture2 = PIXI.utils.TextureCache["chip"];
-    var texture3 = PIXI.loader.resources.chip.texture;
+    var texture3 = texture2.clone();
+
+    for( var i=0; i<100; i++ ){
+        let tex = texture2.clone();
+        let rect = new PIXI.Rectangle(94, 32, 32, 32);
+        tex.frame = rect;
+        let chip = new PIXI.Sprite(tex);
+        chip.position.set(i * 10, i * 10);
+        stage.addChild(chip);
+    }
+
     var rectangle = new PIXI.Rectangle(94, 32, 32, 32);
-    var rectangle2 = new PIXI.Rectangle(32, 32, 32, 32);
+    var rectangle2 = new PIXI.Rectangle(0, 32, 32, 32);
 
     texture2.frame = rectangle;
-    texture3.frame = rectangle2;
     var chip = new PIXI.Sprite(texture2);
+    texture3.frame = rectangle2;
     var chip2 = new PIXI.Sprite(texture3);
     chip.position.set(50, 50);
-    chip2.position.set(150, 50);
+    chip2.position.set(100, 50);
     stage.addChild(chip);
     stage.addChild(chip2);
 

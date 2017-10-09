@@ -38,9 +38,22 @@ function setup() {
     var texture = PIXI.loader.resources["img/chara.png"].texture;
     var chara = new PIXI.Sprite(texture);
     var kamechara = new PIXI.Sprite(PIXI.loader.resources.kame.texture);
+    //スプライトの位置調整
+    kamechara.x = 200;
+    kamechara.y = 200;
+    kamechara.width = 300;
+    kamechara.height = 300;
+    //kamechara.anchor.x = 0.5;
+    //kamechara.anchor.y = 0.5;
+    //kamechara.rotation = 0.5;
+    //このようにも設定できる
+    chara.position.set(100, 100);
+    chara.scale.x = 3;
+    //stageに追加する
     stage.addChild(chara);
     stage.addChild(kamechara);
     renderer.render(stage);
+    //テクスチャを入れ替えてみる
     setTimeout( ()=>{ chara.texture = PIXI.loader.resources.kame.texture; console.log("hogehoge"); renderer.render(stage); }, 2001 );
 }
 

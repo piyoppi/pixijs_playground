@@ -30,6 +30,7 @@ renderer.resize(512, 512);
 PIXI.loader
 .add("img/chara.png")
 .add("kame", "img/kame.png")
+.add("chip", "img/chip.bmp")
 .on("progress", loadProgressHandler)
 .load(setup);
 
@@ -52,9 +53,28 @@ function setup() {
     //stageに追加する
     stage.addChild(chara);
     stage.addChild(kamechara);
-    renderer.render(stage);
     //テクスチャを入れ替えてみる
     setTimeout( ()=>{ chara.texture = PIXI.loader.resources.kame.texture; console.log("hogehoge"); renderer.render(stage); }, 2001 );
+
+    //------------------------------------------------------------------------
+    //マップチップ描画テスト
+    var texture2 = PIXI.utils.TextureCache["chip"];
+    var texture3 = PIXI.loader.resources.chip.texture;
+    var rectangle = new PIXI.Rectangle(94, 32, 32, 32);
+    var rectangle2 = new PIXI.Rectangle(32, 32, 32, 32);
+
+    texture2.frame = rectangle;
+    texture3.frame = rectangle2;
+    var chip = new PIXI.Sprite(texture2);
+    var chip2 = new PIXI.Sprite(texture3);
+    chip.position.set(50, 50);
+    chip2.position.set(150, 50);
+    stage.addChild(chip);
+    stage.addChild(chip2);
+
+
+    //描画する
+    renderer.render(stage);
 }
 
 

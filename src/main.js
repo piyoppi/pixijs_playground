@@ -2,7 +2,7 @@
 //  このプログラムはpixi.jsのチュートリアルを見ながら書いています
 //  ref: https://github.com/kittykatattack/learningPixi
 //
-//import PIXI from 'pixi.js';
+
 import * as pixi from 'pixi.js';
 
 //Create the renderer
@@ -44,6 +44,7 @@ function setup() {
     kamechara.y = 200;
     kamechara.width = 300;
     kamechara.height = 300;
+    //回転はこんなかんじ
     //kamechara.anchor.x = 0.5;
     //kamechara.anchor.y = 0.5;
     //kamechara.rotation = 0.5;
@@ -72,9 +73,20 @@ function setup() {
     stage.addChild(chip);
     stage.addChild(chip2);
 
+
+    //------------------------------------------------------------------------
+    //タイリングスプライト
+    var tilingSprite = new PIXI.extras.TilingSprite(
+            texture, 
+            300,
+            300 
+            );
+    tilingSprite.y = 300;
+    stage.addChild(tilingSprite);
+
     //------------------------------------------------------------------------
     //図形描画テスト
-    
+
     //角丸四角形
     var roundBox = new PIXI.Graphics();
     roundBox.lineStyle(4, 0x99CCFF, 1);

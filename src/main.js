@@ -1,3 +1,7 @@
+//
+//  このプログラムはpixi.jsのチュートリアルを見ながら書いています
+//  ref: https://github.com/kittykatattack/learningPixi
+//
 //import PIXI from 'pixi.js';
 import * as pixi from 'pixi.js';
 
@@ -22,9 +26,11 @@ renderer.autoResize = true;
 renderer.resize(512, 512);
 
 //Use Pixi's built-in `loader` object to load an image
+//add関数の詳細は：https://github.com/kittykatattack/learningPixi#more-about-pixis-loader
 PIXI.loader
 .add("img/chara.png")
 .add("kame", "img/kame.png")
+.on("progress", loadProgressHandler)
 .load(setup);
 
 //This `setup` function will run when the image has loaded
@@ -37,3 +43,19 @@ function setup() {
     renderer.render(stage);
     setTimeout( ()=>{ chara.texture = PIXI.loader.resources.kame.texture; console.log("hogehoge"); renderer.render(stage); }, 2001 );
 }
+
+
+//ローディング情報を取れるみたい
+function loadProgressHandler(loader, resource) {
+
+  //Display the file `url` currently being loaded
+  console.log("loading: " + resource.url); 
+
+  //Display the percentage of files currently loaded
+  console.log("progress: " + loader.progress + "%"); 
+
+  //If you gave your files names as the first argument 
+  //of the `add` method, you can access them like this
+  console.log("loading: " + resource.name);
+}
+

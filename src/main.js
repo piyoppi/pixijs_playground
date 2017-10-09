@@ -72,6 +72,63 @@ function setup() {
     stage.addChild(chip);
     stage.addChild(chip2);
 
+    //------------------------------------------------------------------------
+    //図形描画テスト
+    
+    //角丸四角形
+    var roundBox = new PIXI.Graphics();
+    roundBox.lineStyle(4, 0x99CCFF, 1);
+    roundBox.beginFill(0xFF9933);
+    roundBox.drawRoundedRect(0, 0, 84, 36, 10)
+        roundBox.endFill();
+    roundBox.x = 48;
+    roundBox.y = 190;
+    stage.addChild(roundBox);
+
+    //線分
+    var line = new PIXI.Graphics();
+    line.lineStyle(4, 0xFFFFFF, 1);
+    line.moveTo(0, 0);
+    line.lineTo(80, 50);
+    line.x = 0;
+    line.y = 32;
+    stage.addChild(line);
+
+    //円
+    var ellipse = new PIXI.Graphics();
+    ellipse.beginFill(0xFFFF00);
+    ellipse.drawEllipse(0, 0, 50, 20);
+    ellipse.endFill();
+    ellipse.x = 180;
+    ellipse.y = 130;
+    stage.addChild(ellipse);
+
+    var circle = new PIXI.Graphics();
+    circle.lineStyle(4, 0x99CCFF, 1);
+    circle.beginFill(0x9966FF);
+    circle.drawCircle(0, 0, 32);
+    circle.endFill();
+    circle.x = 64;
+    circle.y = 130;
+    stage.addChild(circle);
+
+    var triangle = new PIXI.Graphics();
+    triangle.beginFill(0x66FF33);
+    //Use `drawPolygon` to define the triangle as
+    //a path array of x/y positions
+    triangle.drawPolygon([
+            -32, 64,             //First point
+            32, 64,              //Second point
+            0, 0                 //Third point
+    ]);
+    //Fill shape's color
+    triangle.endFill();
+    //Position the triangle after you've drawn it.
+    //The triangle's x/y position is anchored to its first point in the path
+    triangle.x = 180;
+    triangle.y = 22;
+
+    stage.addChild(triangle);
 
     //描画する
     renderer.render(stage);
@@ -81,14 +138,14 @@ function setup() {
 //ローディング情報を取れるみたい
 function loadProgressHandler(loader, resource) {
 
-  //Display the file `url` currently being loaded
-  console.log("loading: " + resource.url); 
+    //Display the file `url` currently being loaded
+    console.log("loading: " + resource.url); 
 
-  //Display the percentage of files currently loaded
-  console.log("progress: " + loader.progress + "%"); 
+    //Display the percentage of files currently loaded
+    console.log("progress: " + loader.progress + "%"); 
 
-  //If you gave your files names as the first argument 
-  //of the `add` method, you can access them like this
-  console.log("loading: " + resource.name);
+    //If you gave your files names as the first argument 
+    //of the `add` method, you can access them like this
+    console.log("loading: " + resource.name);
 }
 

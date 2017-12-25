@@ -99,6 +99,23 @@ function setup() {
     tilingSprite.y = 300;
     stage.addChild(tilingSprite);
 
+
+    //------------------------------------------------------------------------
+    //アニメーションテスト
+    let animationTextures = [];
+    for( let i=0; i<5; i++ ){
+        let tex = PIXI.loader.resources.chip.texture.clone();
+        tex.frame = new PIXI.Rectangle(32 + i * 10, 32, 32, 32);
+        animationTextures.push(tex);
+    }
+    let animation = new PIXI.extras.AnimatedSprite(animationTextures);
+    animation.x = 200; 
+    animation.y = 0; 
+    animation.animationSpeed = 0.01;        //値が小さいほどおそくなる
+    animation.gotoAndPlay(0);               //指定フレームに移動して再生
+    stage.addChild(animation);
+
+
     //------------------------------------------------------------------------
     //図形描画テスト
 
@@ -158,8 +175,10 @@ function setup() {
     stage.addChild(triangle);
 
     //描画する
-    renderer.render(stage);
+    function render(){ renderer.render(stage); setTimeout(render, 100); }
+    setTimeout( render, 100 );
 }
+
 
 
 //ローディング情報を取れるみたい

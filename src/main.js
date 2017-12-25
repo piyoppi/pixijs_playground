@@ -29,15 +29,20 @@ renderer.resize(512, 512);
 //add関数の詳細は：https://github.com/kittykatattack/learningPixi#more-about-pixis-loader
 PIXI.loader
 .add("img/chara.png")
-.add("kame", "img/kame.png")
-.add("chip", "img/chip.bmp")
-.on("progress", loadProgressHandler)
+ PIXI.loader.add("kame", "img/kame.png")
+//.add("chip", "img/chip.bmp")
+ PIXI.loader.on("progress", loadProgressHandler)
 .load(setup);
 
+
+
+
+let tex = PIXI.Texture.from("img/chip.bmp");
+PIXI.Texture.addToCache(tex, "chip");
 //This `setup` function will run when the image has loaded
 function setup() {
     var texture = PIXI.loader.resources["img/chara.png"].texture;
-    var chara = new PIXI.Sprite(texture);
+    var chara = new PIXI.Sprite();
     var kamechara = new PIXI.Sprite(PIXI.loader.resources.kame.texture);
     //スプライトの位置調整
     kamechara.x = 200;

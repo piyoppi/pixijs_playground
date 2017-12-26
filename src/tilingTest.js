@@ -1,9 +1,20 @@
 import * as pixi from 'pixi.js';
+import pixiLayers from 'pixi-layers';
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 //Create the renderer
-var renderer = PIXI.autoDetectRenderer(1024, 1024, {antialias: false, transparent: false, resolution: 1});
-renderer.backgroundColor = 0xfff;
+//var renderer = PIXI.autoDetectRenderer(1024, 1024, {antialias: false, transparent: false, resolution: 1});
+       var renderer = pixi.autoDetectRenderer(
+                {
+                    width: 1024,
+                    height: 1024,
+                    antialias: false,
+                    transparent: true,
+                    resolution: 1,
+                    roundPixels: false,
+                    antialias: false,
+                }
+                );
 
 //Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
@@ -17,6 +28,15 @@ stage.y = 0;
 PIXI.loader.add("img/chip.png")
 .add("img/chip2.png")
 .load(setup);
+
+//layer
+let displayGroups = [];
+for( let i=0; i<2; i++ ) {
+    displayGroups.push(new pixi.display.Layer());
+    displayGroups[i].zIndex = i;
+    stage.addChild(displayGroups[i]);
+    displayGroups[i].group.enableSort = false;
+}
 
 //This `setup` function will run when the image has loaded
 function setup() {
@@ -53,11 +73,14 @@ function setup() {
     tilingTexture.frame = new PIXI.Rectangle(64, 96, 32, 32);
     for( let y = 0; y < 100; y++ ) {
         for( let x = 0; x < 100; x++ ) {
-            var chip = new PIXI.Sprite(tilingTexture);
+            var chip = new PIXI.Sprite();
+            chip.texture = tilingTexture;
             chip.position.set(x * 32, y * 32);
             tilingContainer.addChild(chip);
         }
     }
+    tilingContainer.parentLayer = displayGroups[0];
+    tilingContainer.zIndex = 1;
     //tilingContainer.width = 123;
     //tilingContainer.height = 234;
     stage.addChild(tilingContainer);

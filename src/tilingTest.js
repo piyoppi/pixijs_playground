@@ -78,33 +78,32 @@ function setup() {
 
     //------------------------------------------------------------------------
     //タイリングスプライトもどき
-    tilingTexture = texture.clone();
-    for( let y = 0; y < 100; y++ ) {
-        for( let x = 0; x < 100; x++ ) {
-            var chip = new PIXI.Sprite();
-            chip.texture = tilingTexture;
-            chip.position.set(x * 32, y * 32);
-            tilingContainer.addChild(chip);
+    setTimeout( () => {
+        tilingTexture = texture.clone();
+        for( let y = 0; y < 100; y++ ) {
+            for( let x = 0; x < 100; x++ ) {
+                var chip = new PIXI.Sprite();
+                chip.texture = tilingTexture;
+                chip.position.set(x * 32, y * 32);
+                tilingContainer.addChild(chip);
+            }
         }
-    }
-    tilingContainer.parentLayer = displayGroups[0];
-    tilingContainer.zIndex = 3;
-    //tilingContainer.width = 123;
-    //tilingContainer.height = 234;
-    stage.addChild(tilingContainer);
-
+        tilingContainer.parentLayer = displayGroups[0];
+        tilingContainer.zIndex = 3;
+        //tilingContainer.width = 123;
+        //tilingContainer.height = 234;
+        stage.addChild(tilingContainer);
+    }, 5000);
 }
 
 let rad = 0.0;
 window.onload = function() {
     function freq() {
-        if( !tilingTexture ) {
-            window.requestAnimationFrame( freq );
-            return;
+        if( tilingTexture ) {
+            tilingTexture.frame = new PIXI.Rectangle(64, 96, 32, 32);
+            tilingContainer.position.set( 300 * Math.cos(rad), 100 * Math.sin(rad) );
+            rad += 0.05;
         }
-        tilingTexture.frame = new PIXI.Rectangle(64, 96, 32, 32);
-        tilingContainer.position.set( 300 * Math.cos(rad), 100 * Math.sin(rad) );
-        rad += 0.05;
         renderer.render(stage);
         window.requestAnimationFrame( freq );
     }

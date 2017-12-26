@@ -1,5 +1,6 @@
 import * as pixi from 'pixi.js';
-import pixiLayers from 'pixi-layers';
+import * as pixiLayers from 'pixi-layers';
+
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 //Create the renderer
@@ -20,7 +21,8 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 document.body.appendChild(renderer.view);
 
 //Create a container object called the `stage`
-var stage = new PIXI.Container();
+//var stage = new PIXI.Container();
+var stage = new pixi.display.Stage();
 var tilingContainer = new PIXI.Container();
 stage.x = 0;
 stage.y = 0;
@@ -32,17 +34,22 @@ PIXI.loader.add("img/chip.png")
 //layer
 let displayGroups = [];
 for( let i=0; i<2; i++ ) {
-    displayGroups.push(new pixi.display.Layer());
+    displayGroups.push(new PIXI.display.Layer());
     displayGroups[i].zIndex = i;
     stage.addChild(displayGroups[i]);
-    displayGroups[i].group.enableSort = false;
+    displayGroups[i].group.enableSort = true;
 }
+
+var texture;
+var texture2;
+var chara;
+let tilingTexture;
 
 //This `setup` function will run when the image has loaded
 function setup() {
-    var texture = PIXI.loader.resources["img/chip.png"].texture;
-    var texture2 = PIXI.loader.resources["img/chip2.png"].texture;
-    var chara = new PIXI.Sprite();
+    texture = PIXI.loader.resources["img/chip.png"].texture;
+    texture2 = PIXI.loader.resources["img/chip2.png"].texture;
+    chara = new PIXI.Sprite();
     //------------------------------------------------------------------------
     //タイリングスプライト
     var tilingSprite = new PIXI.extras.TilingSprite(
@@ -54,6 +61,7 @@ function setup() {
     tilingSprite.tilePosition.y = 0
     tilingSprite.y = 1;
     tilingSprite.x = 2;
+    tilingSprite.parentLayer = displayGroups[2];
     stage.addChild(tilingSprite);
 
     var tilingSprite2 = new PIXI.extras.TilingSprite(
@@ -65,12 +73,12 @@ function setup() {
     tilingSprite2.tilePosition.y = 1
     tilingSprite2.y = 125;
     tilingSprite2.x = 100;
+    tilingSprite2.parentLayer = displayGroups[1];
     stage.addChild(tilingSprite2);
 
     //------------------------------------------------------------------------
     //タイリングスプライトもどき
-    let tilingTexture = texture.clone();
-    tilingTexture.frame = new PIXI.Rectangle(64, 96, 32, 32);
+    tilingTexture = texture.clone();
     for( let y = 0; y < 100; y++ ) {
         for( let x = 0; x < 100; x++ ) {
             var chip = new PIXI.Sprite();
@@ -80,7 +88,7 @@ function setup() {
         }
     }
     tilingContainer.parentLayer = displayGroups[0];
-    tilingContainer.zIndex = 1;
+    tilingContainer.zIndex = 3;
     //tilingContainer.width = 123;
     //tilingContainer.height = 234;
     stage.addChild(tilingContainer);
@@ -90,6 +98,11 @@ function setup() {
 let rad = 0.0;
 window.onload = function() {
     function freq() {
+        if( !tilingTexture ) {
+            window.requestAnimationFrame( freq );
+            return;
+        }
+        tilingTexture.frame = new PIXI.Rectangle(64, 96, 32, 32);
         tilingContainer.position.set( 300 * Math.cos(rad), 100 * Math.sin(rad) );
         rad += 0.05;
         renderer.render(stage);

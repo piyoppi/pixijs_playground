@@ -2,7 +2,7 @@ import * as pixi from 'pixi.js';
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 //Create the renderer
-var renderer = PIXI.autoDetectRenderer(512, 512, {antialias: false, transparent: false, resolution: 1});
+var renderer = PIXI.autoDetectRenderer(1024, 1024, {antialias: false, transparent: false, resolution: 1});
 renderer.backgroundColor = 0xfff;
 
 //Add the canvas to the HTML document
@@ -10,6 +10,7 @@ document.body.appendChild(renderer.view);
 
 //Create a container object called the `stage`
 var stage = new PIXI.Container();
+var tilingContainer = new PIXI.Container();
 stage.x = 0;
 stage.y = 0;
 
@@ -46,6 +47,30 @@ function setup() {
     tilingSprite2.x = 100;
     stage.addChild(tilingSprite2);
 
-    renderer.render(stage);
+    //------------------------------------------------------------------------
+    //タイリングスプライトもどき
+    let tilingTexture = texture.clone();
+    tilingTexture.frame = new PIXI.Rectangle(64, 96, 32, 32);
+    for( let y = 0; y < 100; y++ ) {
+        for( let x = 0; x < 100; x++ ) {
+            var chip = new PIXI.Sprite(tilingTexture);
+            chip.position.set(x * 32, y * 32);
+            tilingContainer.addChild(chip);
+        }
+    }
+    tilingContainer.x = 300;
+    tilingContainer.y = 300;
+    stage.addChild(tilingContainer);
+
 }
 
+let rad = 0.0;
+window.onload = function() {
+    function freq() {
+        tilingContainer.position.set( 300 * Math.cos(rad), 100 * Math.sin(rad) );
+        rad += 0.05;
+        renderer.render(stage);
+        window.requestAnimationFrame( freq );
+    }
+    window.requestAnimationFrame( freq );
+}

@@ -58,8 +58,8 @@ function setup() {
             tilingContainer.addChild(chip);
         }
     }
-    tilingContainer.x = 300;
-    tilingContainer.y = 300;
+    //tilingContainer.width = 123;
+    //tilingContainer.height = 234;
     stage.addChild(tilingContainer);
 
 }
